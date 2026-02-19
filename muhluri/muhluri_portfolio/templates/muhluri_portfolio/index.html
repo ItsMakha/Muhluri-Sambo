@@ -1,0 +1,987 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Muhluri Sambo | Author • Activist • Speaker</title>
+    <meta name="description" content="Muhluri Sambo is an award-winning author, activist, and motivational speaker. Best known for the Infinite series." />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Your external CSS (Django static) -->
+    <link rel="stylesheet" href="{% static 'muhluri_portfolio/css/styles.css' %}" />
+
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              navy: {
+                DEFAULT: '#0B2A4A',
+                dark: '#071e36',
+                light: '#123a66'
+              },
+              gold: {
+                DEFAULT: '#E2B13C',
+                dark: '#c99a2e',
+                light: '#f0c95c'
+              },
+              neutral: {
+                gray: '#475569'
+              }
+            },
+            fontFamily: {
+              serif: ['Cormorant Garamond', 'serif'],
+              sans: ['Inter', 'sans-serif']
+            },
+            letterSpacing: {
+              'ultra-wide': '0.2em'
+            }
+          }
+        }
+      }
+    </script>
+
+    <style>
+      /* Custom CSS for premium effects */
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #ffffff;
+        color: #0b2a4a;
+        overflow-x: hidden;
+      }
+      
+      h1,
+      h2,
+      h3,
+      h4,
+      .font-serif {
+        font-family: 'Cormorant Garamond', serif;
+      }
+      
+      /* Scroll Progress Bar */
+      #scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #e2b13c 0%, #f0c95c 100%);
+        z-index: 9999;
+        width: 0%;
+        transition: width 0.1s ease-out;
+      }
+      
+      /* Gold accent line */
+      .gold-rule {
+        width: 60px;
+        height: 2px;
+        background: #e2b13c;
+      }
+      
+      /* Gold corner blocks */
+      .corner-block {
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        border: 2px solid #e2b13c;
+      }
+      
+      .corner-block.top-left {
+        top: -10px;
+        left: -10px;
+        border-right: none;
+        border-bottom: none;
+      }
+      
+      .corner-block.bottom-right {
+        bottom: -10px;
+        right: -10px;
+        border-left: none;
+        border-top: none;
+      }
+      
+      /* Section background numbers */
+      .section-number {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 20rem;
+        font-weight: 300;
+        color: rgba(11, 42, 74, 0.03);
+        position: absolute;
+        z-index: 0;
+        user-select: none;
+        pointer-events: none;
+        line-height: 1;
+      }
+      
+      /* Navigation transitions */
+      nav {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      nav.scrolled {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        box-shadow: 0 1px 0 rgba(11, 42, 74, 0.05);
+      }
+      
+      /* Premium button hover */
+      .btn-premium {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .btn-premium::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.6s;
+      }
+      
+      .btn-premium:hover::before {
+        left: 100%;
+      }
+      
+      .btn-premium:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(226, 177, 60, 0.3);
+      }
+      
+      /* Image reveal animation */
+      .reveal-image {
+        clip-path: inset(0 100% 0 0);
+        transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+      }
+      
+      .reveal-image.revealed {
+        clip-path: inset(0 0 0 0);
+      }
+      
+      /* Text reveal */
+      .reveal-text {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .reveal-text.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* Stagger children */
+      .stagger-children > * {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      
+      .stagger-children.revealed > *:nth-child(1) {
+        transition-delay: 0.1s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger-children.revealed > *:nth-child(2) {
+        transition-delay: 0.2s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger-children.revealed > *:nth-child(3) {
+        transition-delay: 0.3s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger-children.revealed > *:nth-child(4) {
+        transition-delay: 0.4s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .stagger-children.revealed > *:nth-child(5) {
+        transition-delay: 0.5s;
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .stagger-children.revealed > * {
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      /* Book card hover */
+      .book-card {
+        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .book-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(11, 42, 74, 0.1);
+      }
+      
+      .book-card:hover .book-overlay {
+        opacity: 1;
+      }
+      
+      .book-overlay {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      
+      /* Timeline */
+      .timeline-line {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(to bottom, #e2b13c, rgba(226, 177, 60, 0.1));
+      }
+      
+      .timeline-dot {
+        width: 12px;
+        height: 12px;
+        background: #e2b13c;
+        border: 3px solid #ffffff;
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px #e2b13c;
+      }
+      
+      /* Magnetic button effect */
+      .magnetic-btn {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      /* Parallax container */
+      .parallax-wrapper {
+        overflow: hidden;
+      }
+      
+      /* Form styling */
+      input,
+      textarea {
+        transition: all 0.3s ease;
+      }
+      
+      input:focus,
+      textarea:focus {
+        border-color: #e2b13c;
+        box-shadow: 0 0 0 3px rgba(226, 177, 60, 0.1);
+        outline: none;
+      }
+      
+      /* Hairline divider */
+      .hairline {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(11, 42, 74, 0.2), transparent);
+      }
+      
+      /* Gold quote marks */
+      .quote-mark {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 8rem;
+        color: #e2b13c;
+        line-height: 1;
+        opacity: 0.3;
+      }
+      
+      /* Smooth scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+      
+      ::-webkit-scrollbar-thumb {
+        background: #0b2a4a;
+        border-radius: 4px;
+      }
+      
+      ::-webkit-scrollbar-thumb:hover {
+        background: #e2b13c;
+      }
+      
+      /* Mobile menu */
+      .mobile-menu {
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .mobile-menu.open {
+        transform: translateX(0);
+      }
+      
+      /* Loading state */
+      .page-loader {
+        position: fixed;
+        inset: 0;
+        background: #0b2a4a;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.6s ease, visibility 0.6s;
+      }
+      
+      .page-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+      
+      /* Luxury link hover */
+      .luxury-link {
+        position: relative;
+      }
+      
+      .luxury-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: #e2b13c;
+        transition: width 0.3s ease;
+      }
+      
+      .luxury-link:hover::after {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body class="antialiased">
+    <!-- Page Loader -->
+    <div class="page-loader" id="pageLoader">
+      <div class="text-center">
+        <div class="text-gold font-serif text-2xl tracking-ultra-wide mb-4">MS</div>
+        <div class="w-32 h-px bg-gold/30 mx-auto overflow-hidden">
+          <div class="h-full bg-gold w-1/2 animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-6 px-6 lg:px-12">
+      <div class="max-w-7xl mx-auto flex items-center justify-between">
+        <!-- Logo -->
+        <a href="#" class="font-serif text-2xl lg:text-3xl font-medium text-navy tracking-tight z-50 relative">Muhluri<span class="text-gold">.</span></a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden lg:flex items-center space-x-8">
+          <a href="#home" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Home</a>
+          <a href="#about" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">About</a>
+          <a href="#books" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Books</a>
+          <a href="#education" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Education</a>
+          <a href="#work" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Work & Media</a>
+          <a href="#projects" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Projects</a>
+          <a href="#contact" class="btn-premium bg-gold text-white px-6 py-3 text-sm tracking-wide font-medium rounded-sm">Contact</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="lg:hidden z-50 text-navy p-2"><i data-lucide="menu" class="w-6 h-6" id="menuIcon"></i></button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu fixed inset-0 bg-white z-40 flex flex-col items-center justify-center lg:hidden">
+      <div class="flex flex-col items-center space-y-8">
+        <a href="#home" class="mobile-link font-serif text-3xl text-navy">Home</a>
+        <a href="#about" class="mobile-link font-serif text-3xl text-navy">About</a>
+        <a href="#books" class="mobile-link font-serif text-3xl text-navy">Books</a>
+        <a href="#education" class="mobile-link font-serif text-3xl text-navy">Education</a>
+        <a href="#work" class="mobile-link font-serif text-3xl text-navy">Work & Media</a>
+        <a href="#projects" class="mobile-link font-serif text-3xl text-navy">Projects</a>
+        <a href="#contact" class="mobile-link font-serif text-3xl text-navy">Contact</a>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen relative flex items-center pt-20 lg:pt-0 overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 bg-gradient-to-br from-white via-white to-slate-50 z-0"></div>
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 w-full relative z-10">
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <!-- Left: Image -->
+          <div class="relative order-2 lg:order-1">
+            <div class="relative parallax-wrapper">
+              <!-- Gold corner decorations -->
+              <div class="corner-block top-left"></div>
+              <div class="corner-block bottom-right"></div>
+
+              <!-- Gold accent square behind -->
+              <div class="absolute -top-6 -right-6 w-32 h-32 bg-gold/10 z-0"></div>
+              <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-navy/5 z-0"></div>
+
+              <!-- Main Image -->
+              <div class="relative z-10 overflow-hidden rounded-sm shadow-2xl">
+                <img src="{% static 'muhluri_portfolio/img/image 15.jpeg' %}" alt="Muhluri Sambo" class="w-full h-[520px] lg:h-[720px] object-cover reveal-image revealed object-[50%_8%]" id="heroImage" />
+              </div>
+
+              <!-- Floating badge -->
+              <div class="absolute -bottom-8 -right-8 lg:right-12 bg-white p-6 shadow-xl z-20 max-w-xs reveal-text">
+                <div class="gold-rule mb-4"></div>
+                <p class="font-serif text-lg text-navy italic">"Award-winning author of the Infinite series"</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Content -->
+          <div class="order-1 lg:order-2 lg:pl-12">
+            <div class="gold-rule mb-8 reveal-text"></div>
+
+            <h1 class="font-serif text-5xl lg:text-7xl xl:text-8xl font-medium text-navy leading-none mb-6 reveal-text" style="transition-delay: 0.1s">
+              Muhluri<br />
+              <span class="text-gold">Sambo</span>
+            </h1>
+
+            <p class="text-lg lg:text-xl text-neutral-gray font-light tracking-wide mb-8 reveal-text" style="transition-delay: 0.2s">Author, Activist, Motivational Speaker & Livestock Investor</p>
+
+            <p class="text-navy/70 text-base lg:text-lg leading-relaxed mb-10 max-w-lg reveal-text" style="transition-delay: 0.3s">Award-winning author of the Infinite series. Transforming minds and inspiring generations through literature and leadership.</p>
+
+            <div class="flex flex-col sm:flex-row gap-4 reveal-text" style="transition-delay: 0.4s">
+              <a href="#contact" class="btn-premium magnetic-btn bg-gold text-white px-8 py-4 text-sm tracking-wide font-medium rounded-sm inline-flex items-center justify-center gap-2 group">
+                <span>Book a Keynote</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+              </a>
+              <a href="#books" class="magnetic-btn border-2 border-navy text-navy px-8 py-4 text-sm tracking-wide font-medium rounded-sm inline-flex items-center justify-center hover:bg-navy hover:text-white transition-all duration-300">Explore the Infinite Series</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Decorative Elements -->
+      <div class="absolute bottom-12 left-6 lg:left-12 flex items-center gap-4 text-navy/40 text-sm tracking-wide">
+        <span>01</span>
+        <div class="w-12 h-px bg-navy/20"></div>
+        <span>Home</span>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 lg:py-32 relative bg-slate-50 overflow-hidden">
+      <!-- Background Number -->
+      <div class="section-number top-20 right-0 lg:right-20 reveal-text" id="sectionNumber02">02</div>
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <!-- Left: Text -->
+          <div class="order-2 lg:order-1">
+            <div class="gold-rule mb-6 reveal-text"></div>
+            <h2 class="font-serif text-4xl lg:text-5xl font-medium text-navy mb-8 reveal-text">About the<br />Author</h2>
+
+            <div class="prose prose-lg max-w-none">
+              <p class="text-neutral-gray leading-relaxed mb-6 text-lg reveal-text" style="transition-delay: 0.1s">
+                Muhluri Sambo is a 24-year-old Author, Activist, Motivational Speaker and Livestock Investor from South Africa best known for the award-winning book, <span class="text-navy font-medium">Infinite Teen</span>.
+              </p>
+              <p class="text-neutral-gray leading-relaxed text-lg reveal-text" style="transition-delay: 0.2s">His journey began in Gidjamhandeni village (Malamulele, Limpopo) and later in Glenridge (Protea Glen Extension 16, Soweto). From humble beginnings to global stages, Muhluri represents the voice of a generation determined to redefine leadership and consciousness.</p>
+            </div>
+
+            <div class="mt-10 flex items-center gap-8 reveal-text" style="transition-delay: 0.3s">
+              <div class="text-center">
+                <div class="font-serif text-4xl text-gold font-medium">5</div>
+                <div class="text-xs tracking-wide text-navy/60 uppercase mt-1">Books</div>
+              </div>
+              <div class="h-12 w-px bg-navy/10"></div>
+              <div class="text-center">
+                <div class="font-serif text-4xl text-gold font-medium">24</div>
+                <div class="text-xs tracking-wide text-navy/60 uppercase mt-1">Years Old</div>
+              </div>
+              <div class="h-12 w-px bg-navy/10"></div>
+              <div class="text-center">
+                <div class="font-serif text-4xl text-gold font-medium">SA</div>
+                <div class="text-xs tracking-wide text-navy/60 uppercase mt-1">Origin</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Image -->
+          <div class="order-1 lg:order-2 relative">
+            <div class="relative">
+              <!-- Navy panel behind -->
+              <!-- <div class="absolute -top-8 -right-8 bottom-8 left-8 bg-navy z-0 reveal-text"></div> -->
+
+              <!-- Image -->
+              <div class="relative overflow-hidden shadow-2xl aspect-square">
+                <img src="{% static 'muhluri_portfolio/img/image 14.jpeg' %}" alt="Muhluri Sambo Portrait" class="w-full h-full object-cover reveal-image revealed" />
+              </div>
+
+              <!-- Gold accent -->
+              <div class="absolute -bottom-4 -left-4 w-24 h-24 border-2 border-gold z-20"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Books Section -->
+    <section id="books" class="py-24 lg:py-32 relative bg-white overflow-hidden">
+      <!-- Background Number -->
+      <div class="section-number top-20 left-0 lg:left-20 reveal-text" id="sectionNumber03">03</div>
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-16 lg:mb-24">
+          <div class="gold-rule mx-auto mb-6 reveal-text"></div>
+          <h2 class="font-serif text-4xl lg:text-6xl font-medium text-navy mb-4 reveal-text">Bibliography</h2>
+          <p class="text-neutral-gray text-lg max-w-2xl mx-auto reveal-text" style="transition-delay: 0.1s">The Infinite Series — Literature that challenges boundaries and expands consciousness</p>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 stagger-children" id="booksGrid">
+          <!-- Book 1 -->
+          <div class="book-card group cursor-pointer">
+            <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
+              <img src="{% static 'muhluri_portfolio/img/image 13.jpeg' %}" alt="Infinite Teen" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+                <div class="text-center text-white p-6">
+                  <p class="font-serif text-xl italic mb-2">"Live Beyond the Boundaries"</p>
+                  <span class="text-gold text-sm tracking-wide">Infinite Series</span>
+                </div>
+              </div>
+              <div class="absolute top-4 right-4 bg-gold text-white text-xs px-3 py-1 rounded-sm tracking-wide">Infinite Series</div>
+            </div>
+            <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Infinite Teen</h3>
+            <p class="text-sm text-neutral-gray">Live Beyond the Boundaries</p>
+          </div>
+
+          <!-- Book 2 -->
+          <div class="book-card group cursor-pointer">
+            <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
+              <img src="{% static 'muhluri_portfolio/img/image 12.jpeg' %}" alt="Rethinking Black Consciousness" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+                <div class="text-center text-white p-6">
+                  <p class="font-serif text-xl italic mb-2">"A new perspective on identity"</p>
+                  <span class="text-gold text-sm tracking-wide">Political Thought</span>
+                </div>
+              </div>
+            </div>
+            <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Rethinking Black Consciousness</h3>
+            <p class="text-sm text-neutral-gray">Political & Social Commentary</p>
+          </div>
+
+          <!-- Book 3 -->
+          <div class="book-card group cursor-pointer">
+            <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
+              <img src="{% static 'muhluri_portfolio/img/image 09.jpeg' %}" alt="Infinite Life: Young Single and Free" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+                <div class="text-center text-white p-6">
+                  <p class="font-serif text-xl italic mb-2">"Embrace your journey"</p>
+                  <span class="text-gold text-sm tracking-wide">Lifestyle</span>
+                </div>
+              </div>
+              <div class="absolute top-4 right-4 bg-gold text-white text-xs px-3 py-1 rounded-sm tracking-wide">Infinite Series</div>
+            </div>
+            <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Infinite Life: Young Single and Free</h3>
+            <p class="text-sm text-neutral-gray">Personal Development</p>
+          </div>
+
+          <!-- Book 4 -->
+          <div class="book-card group cursor-pointer">
+            <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
+              <img src="{% static 'muhluri_portfolio/img/image 11.jpeg' %}" alt="Infinite Life: Nothing Changes Until You Change" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+                <div class="text-center text-white p-6">
+                  <p class="font-serif text-xl italic mb-2">"The power of transformation"</p>
+                  <span class="text-gold text-sm tracking-wide">Self-Help</span>
+                </div>
+              </div>
+              <div class="absolute top-4 right-4 bg-gold text-white text-xs px-3 py-1 rounded-sm tracking-wide">Infinite Series</div>
+            </div>
+            <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Infinite Life: Nothing Changes Until You Change</h3>
+            <p class="text-sm text-neutral-gray">Transformational Guide</p>
+          </div>
+
+          <!-- Book 5 -->
+          <div class="book-card group cursor-pointer">
+            <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
+              <img src="{% static 'muhluri_portfolio/img/image 10.jpeg' %}" alt="Infinite Elevation" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+                <div class="text-center text-white p-6">
+                  <p class="font-serif text-xl italic mb-2">"Reach your highest potential"</p>
+                  <span class="text-gold text-sm tracking-wide">Success</span>
+                </div>
+              </div>
+              <div class="absolute top-4 right-4 bg-gold text-white text-xs px-3 py-1 rounded-sm tracking-wide">Infinite Series</div>
+            </div>
+            <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Infinite Elevation</h3>
+            <p class="text-sm text-neutral-gray">Success & Achievement</p>
+          </div>
+        </div>
+
+        <!-- Award Highlight -->
+        <div class="mt-16 lg:mt-24 bg-navy p-8 lg:p-12 rounded-sm relative overflow-hidden reveal-text">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center flex-shrink-0">
+                <i data-lucide="award" class="w-8 h-8 text-white"></i>
+              </div>
+              <div>
+                <h4 class="font-serif text-2xl text-white mb-1">African Child's Author Awards</h4>
+                <p class="text-white/70">Received for all published works</p>
+              </div>
+            </div>
+            <div class="text-gold font-serif text-lg italic">"Recognizing excellence in youth literature"</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="py-24 lg:py-32 relative bg-slate-50 overflow-hidden">
+      <!-- Background Number -->
+      <div class="section-number top-20 right-0 lg:right-20 reveal-text" id="sectionNumber04">04</div>
+
+      <div class="max-w-5xl mx-auto px-6 lg:px-12 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-16 lg:mb-20">
+          <div class="gold-rule mx-auto mb-6 reveal-text"></div>
+          <h2 class="font-serif text-4xl lg:text-5xl font-medium text-navy mb-4 reveal-text">Education & Leadership</h2>
+          <p class="text-neutral-gray text-lg reveal-text" style="transition-delay: 0.1s">A foundation built on academic excellence and civic engagement</p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="relative pl-8 lg:pl-0 stagger-children" id="educationTimeline">
+          <div class="timeline-line left-0 lg:left-1/2 lg:-translate-x-1/2"></div>
+
+          <!-- Item 1 -->
+          <div class="relative mb-12 lg:mb-16 lg:w-1/2 lg:pr-12 lg:text-right lg:ml-auto">
+            <div class="timeline-dot absolute left-0 lg:left-0 top-1 -translate-x-1/2 lg:translate-x-0 lg:-left-6"></div>
+            <div class="bg-white p-6 lg:p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300">
+              <span class="text-gold text-sm font-medium tracking-wide uppercase">Primary Education</span>
+              <h3 class="font-serif text-xl text-navy mt-2 mb-3">Discovery Primary Full-Service School</h3>
+              <p class="text-neutral-gray text-sm leading-relaxed">Prominent athlete and soccer player; elected Prefect and Community Councilor (Grade 7, 2014).</p>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="relative mb-12 lg:mb-16 lg:w-1/2 lg:pl-12">
+            <div class="timeline-dot absolute left-0 lg:left-auto lg:right-0 top-1 -translate-x-1/2 lg:translate-x-1/2 lg:-right-6"></div>
+            <div class="bg-white p-6 lg:p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300">
+              <span class="text-gold text-sm font-medium tracking-wide uppercase">Secondary Education</span>
+              <h3 class="font-serif text-xl text-navy mt-2 mb-3">University of Johannesburg Metropolitan Academy</h3>
+              <p class="text-neutral-gray text-sm leading-relaxed">Attended in 2015; elected Class Representative Leader (Grades 8–11); Vice-President of RCL (Matric year, 2019).</p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="relative mb-12 lg:mb-16 lg:w-1/2 lg:pr-12 lg:text-right lg:ml-auto">
+            <div class="timeline-dot absolute left-0 lg:left-0 top-1 -translate-x-1/2 lg:translate-x-0 lg:-left-6"></div>
+            <div class="bg-white p-6 lg:p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300">
+              <span class="text-gold text-sm font-medium tracking-wide uppercase">Higher Education</span>
+              <h3 class="font-serif text-xl text-navy mt-2 mb-3">University of Johannesburg</h3>
+              <p class="text-neutral-gray text-sm leading-relaxed">Honours student in Development Studies. Holds a Bachelor of Arts in Humanities, majoring in Development Studies and Political Science.</p>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="relative lg:w-1/2 lg:pl-12">
+            <div class="timeline-dot absolute left-0 lg:left-auto lg:right-0 top-1 -translate-x-1/2 lg:translate-x-1/2 lg:-right-6"></div>
+            <div class="bg-white p-6 lg:p-8 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 border-l-4 border-gold">
+              <span class="text-gold text-sm font-medium tracking-wide uppercase">International Certification</span>
+              <h3 class="font-serif text-xl text-navy mt-2 mb-3">Pan-African Leadership Institute, Ghana</h3>
+              <p class="text-neutral-gray text-sm leading-relaxed">Graduate of a short-term course in Political Leadership, expanding expertise across continental frameworks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work & Media Section -->
+    <section id="work" class="py-24 lg:py-32 relative bg-white overflow-hidden">
+      <!-- Background Number -->
+      <div class="section-number top-40 left-0 lg:left-20 reveal-text" id="sectionNumber05">05</div>
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <!-- Header -->
+        <div class="mb-16 lg:mb-20">
+          <div class="gold-rule mb-6 reveal-text"></div>
+          <h2 class="font-serif text-4xl lg:text-5xl font-medium text-navy mb-4 reveal-text">Work & Media</h2>
+          <p class="text-neutral-gray text-lg max-w-2xl reveal-text" style="transition-delay: 0.1s">Global presence across leadership programs, international representation, and media engagement</p>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          <!-- Left: Content -->
+          <div class="space-y-12">
+            <!-- Block 1 -->
+            <div class="reveal-text">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-navy rounded-full flex items-center justify-center">
+                  <i data-lucide="globe" class="w-5 h-5 text-gold"></i>
+                </div>
+                <h3 class="font-serif text-2xl text-navy">Leadership & Global Representation</h3>
+              </div>
+              <div class="pl-13 space-y-4 text-neutral-gray leading-relaxed">
+                <p>Sent to China in 2016 for a Student Leadership Cultural exchange program; spent two weeks in Beijing and Nanjing engaging with international student leaders.</p>
+                <p>Chosen to represent South African students for the inauguration of President Cyril Ramaphosa in 2019; engaged in an exclusive interview with ENCA.</p>
+                <p>Represented South Africa in Turkey (Istanbul) and United Arab Emirates (Dubai) for Model United Nations in 2022.</p>
+              </div>
+            </div>
+
+            <!-- Block 2 -->
+            <div class="reveal-text" style="transition-delay: 0.1s">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-navy rounded-full flex items-center justify-center">
+                  <i data-lucide="mic" class="w-5 h-5 text-gold"></i>
+                </div>
+                <h3 class="font-serif text-2xl text-navy">Media & Public Engagement</h3>
+              </div>
+              <div class="pl-13 space-y-4 text-neutral-gray leading-relaxed">
+                <p>
+                  <strong class="text-navy">Radio:</strong> SABC Munghana Lonene FM (Back-To-School campaign, Teen Zone weekly program), Tshwane FM, Malamulele FM, UJ FM.
+                </p>
+                <p>
+                  <strong class="text-navy">Television:</strong> SABC News, ENCA, Marketplace with Charles Ngobeni.
+                </p>
+                <p>
+                  <strong class="text-navy">Print & Digital:</strong> SA News, Glitch, Tag My School Magazine.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          
+          <!-- Right: Image Grid -->
+          <div class="grid grid-cols-2 gap-4 reveal-text" style="transition-delay: 0.2s">
+            <!-- Column 1 -->
+            <div class="space-y-4">
+              <div class="overflow-hidden rounded-sm shadow-lg bg-slate-100 flex items-center justify-center">
+                <img src="{% static 'muhluri_portfolio/img/image 01.jpeg' %}" alt="Leadership Event" class="w-full h-48 object-contain p-2 hover:scale-105 transition-transform duration-700" />
+              </div>
+
+              <div class="overflow-hidden rounded-sm shadow-lg bg-slate-100 flex items-center justify-center">
+                <img src="{% static 'muhluri_portfolio/img/image 02.jpeg' %}" alt="Media Engagement" class="w-full h-64 object-contain p-2 hover:scale-105 transition-transform duration-700" />
+              </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="space-y-4 pt-8">
+              <div class="overflow-hidden rounded-sm shadow-lg bg-slate-100 flex items-center justify-center">
+                <img src="{% static 'muhluri_portfolio/img/image 05.jpeg' %}" alt="Conference Speaking" class="w-full h-64 object-contain p-2 hover:scale-105 transition-transform duration-700" />
+              </div>
+
+              <div class="overflow-hidden rounded-sm shadow-lg bg-slate-100 flex items-center justify-center">
+                <img src="{% static 'muhluri_portfolio/img/image 08.jpeg' %}" alt="International Representation" class="w-full h-48 object-contain p-2 hover:scale-105 transition-transform duration-700" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-24 lg:py-32 relative bg-slate-50 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <!-- Header -->
+        <div class="text-center mb-16 lg:mb-20">
+          <div class="gold-rule mx-auto mb-6 reveal-text"></div>
+          <h2 class="font-serif text-4xl lg:text-5xl font-medium text-navy mb-4 reveal-text">Projects & Highlights</h2>
+          <p class="text-neutral-gray text-lg reveal-text" style="transition-delay: 0.1s">Key initiatives and signature appearances</p>
+        </div>
+
+        <!-- Project Cards Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 stagger-children" id="projectsGrid">
+          <!-- Card 1 -->
+          <div class="group bg-white p-8 rounded-sm shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-gold/20">
+            <div class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-gold/10 transition-colors">
+              <i data-lucide="megaphone" class="w-6 h-6 text-navy group-hover:text-gold transition-colors"></i>
+            </div>
+            <h3 class="font-serif text-xl text-navy mb-3">Motivational Speaking Campaigns</h3>
+            <p class="text-neutral-gray text-sm leading-relaxed">National tours inspiring youth across South African schools and universities.</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="group bg-white p-8 rounded-sm shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-gold/20">
+            <div class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-gold/10 transition-colors">
+              <i data-lucide="plane" class="w-6 h-6 text-navy group-hover:text-gold transition-colors"></i>
+            </div>
+            <h3 class="font-serif text-xl text-navy mb-3">Leadership & Cultural Exchange</h3>
+            <p class="text-neutral-gray text-sm leading-relaxed">China 2016 — Two-week immersion in Beijing and Nanjing student leadership programs.</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="group bg-white p-8 rounded-sm shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-gold/20">
+            <div class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-gold/10 transition-colors">
+              <i data-lucide="users" class="w-6 h-6 text-navy group-hover:text-gold transition-colors"></i>
+            </div>
+            <h3 class="font-serif text-xl text-navy mb-3">Global Representation</h3>
+            <p class="text-neutral-gray text-sm leading-relaxed">MUN Istanbul & Dubai 2022 — Representing South Africa on global diplomatic stages.</p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="group bg-white p-8 rounded-sm shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-gold/20">
+            <div class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center mb-6 group-hover:bg-gold/10 transition-colors">
+              <i data-lucide="tv" class="w-6 h-6 text-navy group-hover:text-gold transition-colors"></i>
+            </div>
+            <h3 class="font-serif text-xl text-navy mb-3">National Media Features</h3>
+            <p class="text-neutral-gray text-sm leading-relaxed">SABC News, ENCA, Marketplace — Sharing insights on youth leadership and social change.</p>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="group bg-white p-8 rounded-sm shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-transparent hover:border-gold/20 md:col-span-2 lg:col-span-2">
+            <div class="flex flex-col lg:flex-row lg:items-center gap-6">
+              <div class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-gold/10 transition-colors">
+                <i data-lucide="crown" class="w-6 h-6 text-navy group-hover:text-gold transition-colors"></i>
+              </div>
+              <div>
+                <h3 class="font-serif text-xl text-navy mb-3">Master of Ceremony</h3>
+                <p class="text-neutral-gray text-sm leading-relaxed">High-profile events including Bishop Malomane's daughter's wedding, Raising Legends Awards ceremony featuring Proverb (IDOLS pioneer) and Doctor Khumalo (footballing legend), and the 50th birthday of influential business leader Mr. Sikheto Sambo.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Master of Ceremony Feature Section -->
+    <section class="py-24 lg:py-32 relative bg-navy overflow-hidden">
+      <div class="absolute inset-0 opacity-10">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-gold rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-gold rounded-full translate-x-1/2 translate-y-1/2 blur-3xl"></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto px-6 lg:px-12 relative z-10 text-center reveal-text">
+        <div class="quote-mark mb-4">"</div>
+
+        <blockquote class="font-serif text-2xl lg:text-4xl text-white font-light leading-relaxed mb-8 italic">
+          He has MC'd major events including Bishop Malomane's daughter's wedding, the Raising Legends Awards ceremony featuring high-profile awardees like <span class="text-gold">Proverb</span>, the pioneer of IDOLS, and <span class="text-gold">Doctor Khumalo</span>, the footballing legend of South Africa, as well as the 50th birthday of Mr. Sikheto Sambo, one of South Africa's most influential business leaders.
+        </blockquote>
+
+        <div class="flex items-center justify-center gap-4">
+          <div class="h-px w-12 bg-gold/50"></div>
+          <span class="text-gold text-sm tracking-ultra-wide uppercase">Master of Ceremony</span>
+          <div class="h-px w-12 bg-gold/50"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 lg:py-32 relative bg-white overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 lg:gap-24">
+          <!-- Left: Contact Info -->
+          <div>
+            <div class="gold-rule mb-6 reveal-text"></div>
+            <h2 class="font-serif text-4xl lg:text-5xl font-medium text-navy mb-6 reveal-text">Connect With Me</h2>
+            <p class="text-neutral-gray text-lg mb-10 max-w-md reveal-text" style="transition-delay: 0.1s">For keynote bookings, media inquiries, or collaboration opportunities, reach out through any of the channels below.</p>
+
+            <div class="space-y-6 stagger-children" id="contactInfo">
+              <a href="tel:+27671279474" class="flex items-center gap-4 group p-4 rounded-sm hover:bg-slate-50 transition-colors">
+                <div class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center group-hover:bg-gold/10 transition-colors">
+                  <i data-lucide="phone" class="w-5 h-5 text-navy group-hover:text-gold transition-colors"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-neutral-gray uppercase tracking-wide mb-1">Phone</div>
+                  <div class="text-navy font-medium group-hover:text-gold transition-colors">+27 67 127 9474</div>
+                </div>
+              </a>
+
+              <a href="mailto:muhlurijtsambo11@gmail.com" class="flex items-center gap-4 group p-4 rounded-sm hover:bg-slate-50 transition-colors">
+                <div class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center group-hover:bg-gold/10 transition-colors">
+                  <i data-lucide="mail" class="w-5 h-5 text-navy group-hover:text-gold transition-colors"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-neutral-gray uppercase tracking-wide mb-1">Email</div>
+                  <div class="text-navy font-medium group-hover:text-gold transition-colors">muhlurijtsambo11@gmail.com</div>
+                </div>
+              </a>
+
+              <div class="pt-6 border-t border-navy/10">
+                <div class="text-xs text-neutral-gray uppercase tracking-wide mb-4">Social Media</div>
+                <div class="flex gap-4">
+                  <a href="https://instagram.com/mr_infinite11" target="_blank" class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center hover:bg-gold hover:text-white text-navy transition-all duration-300 group"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                  <a href="https://facebook.com/MuhluriSambo" target="_blank" class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center hover:bg-gold hover:text-white text-navy transition-all duration-300 group"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                  <a href="https://tiktok.com/@mr_infinite11" target="_blank" class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center hover:bg-gold hover:text-white text-navy transition-all duration-300 group"><i data-lucide="music-2" class="w-5 h-5"></i></a>
+                  <a href="https://linkedin.com/in/muhluri-sambo" target="_blank" class="w-12 h-12 bg-navy/5 rounded-full flex items-center justify-center hover:bg-gold hover:text-white text-navy transition-all duration-300 group"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Contact Form -->
+          <div class="bg-slate-50 p-8 lg:p-12 rounded-sm reveal-text" style="transition-delay: 0.2s">
+            <h3 class="font-serif text-2xl text-navy mb-6">Send a Message</h3>
+
+            <form id="contactForm" class="space-y-6">
+              <div>
+                <label class="block text-xs uppercase tracking-wide text-neutral-gray mb-2">Name</label>
+                <input type="text" required class="w-full px-4 py-3 bg-white border border-navy/10 rounded-sm text-navy focus:border-gold transition-all outline-none" placeholder="Your name" />
+              </div>
+
+              <div>
+                <label class="block text-xs uppercase tracking-wide text-neutral-gray mb-2">Email</label>
+                <input type="email" required class="w-full px-4 py-3 bg-white border border-navy/10 rounded-sm text-navy focus:border-gold transition-all outline-none" placeholder="your@email.com" />
+              </div>
+
+              <div>
+                <label class="block text-xs uppercase tracking-wide text-neutral-gray mb-2">Message</label>
+                <textarea rows="4" required class="w-full px-4 py-3 bg-white border border-navy/10 rounded-sm text-navy focus:border-gold transition-all outline-none resize-none" placeholder="How can I help you?"></textarea>
+              </div>
+
+              <button type="submit" class="btn-premium w-full bg-navy text-white py-4 text-sm tracking-wide font-medium rounded-sm hover:bg-gold transition-colors duration-300 flex items-center justify-center gap-2 group">
+                <span>Send Message</span>
+                <i data-lucide="send" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+              </button>
+            </form>
+
+            <!-- Success Message (Hidden by default) -->
+            <div id="formSuccess" class="hidden mt-6 p-4 bg-green-50 border border-green-200 rounded-sm text-green-800 text-sm text-center">
+              <i data-lucide="check-circle" class="w-5 h-5 inline-block mr-2"></i>
+              Thank you for your message. I'll respond shortly.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-navy py-12 lg:py-16 relative">
+      <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+
+      <div class="max-w-7xl mx-auto px-6 lg:px-12">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+          <div class="text-center lg:text-left">
+            <div class="font-serif text-2xl text-white mb-2">
+              Muhluri<span class="text-gold">.</span>
+            </div>
+            <p class="text-white/50 text-sm">Author • Activist • Speaker • Investor</p>
+          </div>
+
+          <div class="flex flex-wrap justify-center gap-6 text-sm text-white/60">
+            <a href="#home" class="luxury-link hover:text-gold transition-colors">Home</a>
+            <a href="#about" class="luxury-link hover:text-gold transition-colors">About</a>
+            <a href="#books" class="luxury-link hover:text-gold transition-colors">Books</a>
+            <a href="#contact" class="luxury-link hover:text-gold transition-colors">Contact</a>
+          </div>
+
+          <div class="text-white/40 text-sm">© 2024 Muhluri Sambo. All rights reserved.</div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+      lucide.createIcons()
+    </script>
+
+    <!-- Main JavaScript (Django static) -->
+    <script src="{% static 'muhluri_portfolio/js/script.js' %}"></script>
+  </body>
+</html>
