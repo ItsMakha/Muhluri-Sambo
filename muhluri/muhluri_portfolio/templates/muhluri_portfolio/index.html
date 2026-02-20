@@ -546,83 +546,83 @@
         <!-- Books Grid -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 stagger-children" id="booksGrid">
           <!-- Book 1 -->
-          <div class="book-card group cursor-pointer">
+          <a href="{% url 'book_detail' book_id=1 %}" class="book-card group cursor-pointer block no-underline">
             <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
               <img src="{% static 'muhluri_portfolio/img/image 13.jpeg' %}" alt="Infinite Teen" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
-              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                 <div class="text-center text-white p-6">
                   <p class="font-serif text-xl italic mb-2">"Live Beyond the Boundaries"</p>
-                  <span class="text-gold text-sm tracking-wide">Infinite Series</span>
+                  <span class="text-gold text-sm tracking-wide">View Details →</span>
                 </div>
               </div>
               <div class="absolute top-4 right-4 bg-gold text-white text-xs px-3 py-1 rounded-sm tracking-wide">Infinite Series</div>
             </div>
             <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Infinite Teen</h3>
             <p class="text-sm text-neutral-gray">Live Beyond the Boundaries</p>
-          </div>
+          </a>
 
           <!-- Book 2 -->
-          <div class="book-card group cursor-pointer">
+          <a href="{% url 'book_detail' book_id=2 %}" class="book-card group cursor-pointer block no-underline">
             <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
               <img src="{% static 'muhluri_portfolio/img/image 12.jpeg' %}" alt="Rethinking Black Consciousness" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
-              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                 <div class="text-center text-white p-6">
                   <p class="font-serif text-xl italic mb-2">"A new perspective on identity"</p>
-                  <span class="text-gold text-sm tracking-wide">Political Thought</span>
+                  <span class="text-gold text-sm tracking-wide">View Details →</span>
                 </div>
               </div>
             </div>
             <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Rethinking Black Consciousness</h3>
             <p class="text-sm text-neutral-gray">Political & Social Commentary</p>
-          </div>
+          </a>
 
           <!-- Book 3 -->
-          <div class="book-card group cursor-pointer">
+          <a href="{% url 'book_detail' book_id=3 %}" class="book-card group cursor-pointer block no-underline">
             <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
               <img src="{% static 'muhluri_portfolio/img/image 09.jpeg' %}" alt="Infinite Life: Young Single and Free" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
-              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                 <div class="text-center text-white p-6">
                   <p class="font-serif text-xl italic mb-2">"Embrace your journey"</p>
-                  <span class="text-gold text-sm tracking-wide">Lifestyle</span>
+                  <span class="text-gold text-sm tracking-wide">View Details →</span>
                 </div>
               </div>
               <div class="absolute top-4 right-4 bg-gold text-white text-xs px-3 py-1 rounded-sm tracking-wide">Infinite Series</div>
             </div>
             <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Infinite Life: Young Single and Free</h3>
             <p class="text-sm text-neutral-gray">Personal Development</p>
-          </div>
+          </a>
 
           <!-- Book 4 -->
-          <div class="book-card group cursor-pointer">
+          <a href="{% url 'book_detail' book_id=4 %}" class="book-card group cursor-pointer block no-underline">
             <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
               <img src="{% static 'muhluri_portfolio/img/image 11.jpeg' %}" alt="Infinite Life: Nothing Changes Until You Change" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
-              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                 <div class="text-center text-white p-6">
                   <p class="font-serif text-xl italic mb-2">"The power of transformation"</p>
-                  <span class="text-gold text-sm tracking-wide">Self-Help</span>
+                  <span class="text-gold text-sm tracking-wide">View Details →</span>
                 </div>
               </div>
               <div class="absolute top-4 right-4 bg-gold text-white text-xs px-3 py-1 rounded-sm tracking-wide">Infinite Series</div>
             </div>
             <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Infinite Life: Nothing Changes Until You Change</h3>
             <p class="text-sm text-neutral-gray">Transformational Guide</p>
-          </div>
+          </a>
 
           <!-- Book 5 -->
-          <div class="book-card group cursor-pointer">
+          <a href="{% url 'book_detail' book_id=5 %}" class="book-card group cursor-pointer block no-underline">
             <div class="relative overflow-hidden rounded-sm shadow-lg mb-6 bg-slate-100 aspect-[3/4]">
               <img src="{% static 'muhluri_portfolio/img/image 10.jpeg' %}" alt="Infinite Elevation" class="w-full h-full object-contain bg-slate-100 p-2 transition-transform duration-700 group-hover:scale-105" />
-              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center">
+              <div class="book-overlay absolute inset-0 bg-navy/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-400">
                 <div class="text-center text-white p-6">
                   <p class="font-serif text-xl italic mb-2">"Reach your highest potential"</p>
-                  <span class="text-gold text-sm tracking-wide">Success</span>
+                  <span class="text-gold text-sm tracking-wide">View Details →</span>
                 </div>
               </div>
               <div class="absolute top-4 right-4 bg-gold text-white text-xs px-3 py-1 rounded-sm tracking-wide">Infinite Series</div>
             </div>
             <h3 class="font-serif text-xl text-navy font-medium mb-2 group-hover:text-gold transition-colors">Infinite Elevation</h3>
             <p class="text-sm text-neutral-gray">Success & Achievement</p>
-          </div>
+          </a>
         </div>
 
         <!-- Award Highlight -->
@@ -757,7 +757,6 @@
             </div>
           </div>
 
-          
           <!-- Right: Image Grid -->
           <div class="grid grid-cols-2 gap-4 reveal-text" style="transition-delay: 0.2s">
             <!-- Column 1 -->

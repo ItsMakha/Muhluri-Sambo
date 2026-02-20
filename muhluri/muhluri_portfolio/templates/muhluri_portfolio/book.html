@@ -1,0 +1,814 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title }} · Muhluri Sambo</title>
+    <meta name="description" content="{{ book.description }}">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Your external CSS (Django static) -->
+    <link rel="stylesheet" href="{% static 'muhluri_portfolio/css/styles.css' %}">
+
+    <!-- Tailwind Config for Custom Colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0B2A4A',
+                            dark: '#071e36',
+                            light: '#123a66'
+                        },
+                        gold: {
+                            DEFAULT: '#E2B13C',
+                            dark: '#c99a2e',
+                            light: '#f0c95c'
+                        },
+                        neutral: {
+                            gray: '#475569'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Cormorant Garamond', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    },
+                    letterSpacing: {
+                        'ultra-wide': '0.2em'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom CSS for premium effects */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #0b2a4a;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, .font-serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        /* Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #e2b13c 0%, #f0c95c 100%);
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.1s ease-out;
+        }
+        
+        /* Gold accent line */
+        .gold-rule {
+            width: 60px;
+            height: 2px;
+            background: #e2b13c;
+        }
+        
+        /* Gold corner blocks */
+        .corner-block {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e2b13c;
+        }
+        
+        .corner-block.top-left {
+            top: -10px;
+            left: -10px;
+            border-right: none;
+            border-bottom: none;
+        }
+        
+        .corner-block.bottom-right {
+            bottom: -10px;
+            right: -10px;
+            border-left: none;
+            border-top: none;
+        }
+        
+        /* Section background numbers */
+        .section-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20rem;
+            font-weight: 300;
+            color: rgba(11, 42, 74, 0.03);
+            position: absolute;
+            z-index: 0;
+            user-select: none;
+            pointer-events: none;
+            line-height: 1;
+        }
+        
+        /* Navigation transitions */
+        nav {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(11, 42, 74, 0.05);
+        }
+        
+        /* Premium button hover */
+        .btn-premium {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+        
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(226, 177, 60, 0.3);
+        }
+        
+        /* Image reveal animation */
+        .reveal-image {
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        
+        .reveal-image.revealed {
+            clip-path: inset(0 0 0 0);
+        }
+        
+        /* Text reveal */
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .reveal-text.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Stagger children */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .stagger-children.revealed > *:nth-child(1) {
+            transition-delay: 0.1s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-children.revealed > *:nth-child(2) {
+            transition-delay: 0.2s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-children.revealed > *:nth-child(3) {
+            transition-delay: 0.3s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-children.revealed > *:nth-child(4) {
+            transition-delay: 0.4s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .stagger-children.revealed > *:nth-child(5) {
+            transition-delay: 0.5s;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stagger-children.revealed > * {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Book card hover (for consistency) */
+        .book-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .book-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(11, 42, 74, 0.1);
+        }
+        
+        /* Timeline (if needed) */
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, #e2b13c, rgba(226, 177, 60, 0.1));
+        }
+        
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            background: #e2b13c;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px #e2b13c;
+        }
+        
+        /* Magnetic button effect */
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Parallax container */
+        .parallax-wrapper {
+            overflow: hidden;
+        }
+        
+        /* Form styling */
+        input,
+        textarea {
+            transition: all 0.3s ease;
+        }
+        
+        input:focus,
+        textarea:focus {
+            border-color: #e2b13c;
+            box-shadow: 0 0 0 3px rgba(226, 177, 60, 0.1);
+            outline: none;
+        }
+        
+        /* Hairline divider */
+        .hairline {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(11, 42, 74, 0.2), transparent);
+        }
+        
+        /* Gold quote marks */
+        .quote-mark {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 8rem;
+            color: #e2b13c;
+            line-height: 1;
+            opacity: 0.3;
+        }
+        
+        /* Smooth scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #0b2a4a;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e2b13c;
+        }
+        
+        /* Luxury link hover */
+        .luxury-link {
+            position: relative;
+        }
+        
+        .luxury-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #e2b13c;
+            transition: width 0.3s ease;
+        }
+        
+        .luxury-link:hover::after {
+            width: 100%;
+        }
+
+        /* Book Detail Specific Styles */
+        .book-title-xl {
+            font-size: clamp(2.8rem, 8vw, 4.2rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .book-author {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: #475569;
+        }
+
+        .genre-badge {
+            display: inline-block;
+            border: 1px solid rgba(11, 42, 74, 0.15);
+            border-radius: 40px;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            color: #0b2a4a;
+            background: transparent;
+        }
+
+        .rating-stars {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .rating-stars svg {
+            width: 1.2rem;
+            height: 1.2rem;
+            fill: #e2b13c;
+            stroke: none;
+        }
+
+        .rating-stars svg:last-child {
+            fill: rgba(226, 177, 60, 0.2);
+        }
+
+        .price-large {
+            font-size: 2.8rem;
+            font-weight: 500;
+            color: #e2b13c;
+            line-height: 1;
+        }
+
+        .btn-primary {
+            background: #e2b13c;
+            color: #0b2a4a;
+            border: none;
+            padding: 1rem 2.8rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 16px rgba(226, 177, 60, 0.2);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: #f0c95c;
+            box-shadow: 0 14px 24px rgba(226, 177, 60, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #0b2a4a;
+            border: 2px solid #0b2a4a;
+            padding: 1rem 2.4rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-secondary:hover {
+            background: #0b2a4a;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .detail-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(11, 42, 74, 0.05);
+        }
+
+        .detail-card:hover {
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(11, 42, 74, 0.1);
+            border-color: #e2b13c;
+        }
+
+        .detail-card .meta-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-card .value {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #0b2a4a;
+            word-break: break-word;
+        }
+
+        .description-text {
+            max-width: 700px;
+            color: #475569;
+            font-size: 1.15rem;
+            line-height: 1.7;
+            font-weight: 350;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover {
+            color: #e2b13c;
+        }
+        
+        .back-link svg {
+            transition: transform 0.2s ease;
+        }
+        
+        .back-link:hover svg {
+            transform: translateX(-3px);
+        }
+
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(11, 42, 74, 0.2), transparent);
+            margin: 4rem 0 3.5rem 0;
+        }
+
+        .cover-wrapper {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -12px rgba(11, 42, 74, 0.3);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            background: #f1f5f9;
+            aspect-ratio: 3/4;
+            max-width: 460px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .cover-wrapper:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 50px -15px rgba(11, 42, 74, 0.4);
+        }
+
+        .cover-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #f1f5f9;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Scroll Progress -->
+    <div id="scroll-progress"></div>
+
+    <!-- Navigation (matching index.html) -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 py-6 px-6 lg:px-12">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="{% url 'home' %}" class="font-serif text-2xl lg:text-3xl font-medium text-navy tracking-tight z-50 relative">Muhluri<span class="text-gold">.</span></a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center space-x-8">
+                <a href="{% url 'home' %}#home" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Home</a>
+                <a href="{% url 'home' %}#about" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">About</a>
+                <a href="{% url 'home' %}#books" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Books</a>
+                <a href="{% url 'home' %}#education" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Education</a>
+                <a href="{% url 'home' %}#work" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Work & Media</a>
+                <a href="{% url 'home' %}#projects" class="luxury-link text-sm tracking-wide text-navy/80 hover:text-navy transition-colors">Projects</a>
+                <a href="{% url 'home' %}#contact" class="btn-premium bg-gold text-white px-6 py-3 text-sm tracking-wide font-medium rounded-sm">Contact</a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="lg:hidden z-50 text-navy p-2">
+                <i data-lucide="menu" class="w-6 h-6" id="menuIcon"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay (matching index.html) -->
+    <div class="mobile-menu fixed inset-0 bg-white z-40 flex flex-col items-center justify-center lg:hidden">
+        <div class="flex flex-col items-center space-y-8">
+            <a href="{% url 'home' %}#home" class="mobile-link font-serif text-3xl text-navy">Home</a>
+            <a href="{% url 'home' %}#about" class="mobile-link font-serif text-3xl text-navy">About</a>
+            <a href="{% url 'home' %}#books" class="mobile-link font-serif text-3xl text-navy">Books</a>
+            <a href="{% url 'home' %}#education" class="mobile-link font-serif text-3xl text-navy">Education</a>
+            <a href="{% url 'home' %}#work" class="mobile-link font-serif text-3xl text-navy">Work & Media</a>
+            <a href="{% url 'home' %}#projects" class="mobile-link font-serif text-3xl text-navy">Projects</a>
+            <a href="{% url 'home' %}#contact" class="mobile-link font-serif text-3xl text-navy">Contact</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="pt-32 lg:pt-36">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 pb-24 lg:pb-32">
+            <!-- Back link to homepage -->
+            <a href="{% url 'home' %}" class="back-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                <span>Back to collection</span>
+            </a>
+
+            <!-- Background Number (for visual interest) -->
+            <div class="section-number top-20 right-0 lg:right-20 opacity-20 pointer-events-none">—</div>
+
+            <!-- Hero Section (2-Column) -->
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start relative z-10">
+                <!-- LEFT: COVER with corner decorations -->
+                <div class="relative">
+                    <div class="relative parallax-wrapper">
+                        <!-- Gold corner decorations (matching index.html hero) -->
+                        <div class="corner-block top-left"></div>
+                        <div class="corner-block bottom-right"></div>
+
+                        <!-- Gold accent square behind -->
+                        <div class="absolute -top-6 -right-6 w-32 h-32 bg-gold/10 z-0"></div>
+                        <div class="absolute -bottom-6 -left-6 w-24 h-24 bg-navy/5 z-0"></div>
+
+                        <!-- Cover Image -->
+                        <div class="cover-wrapper relative z-10 reveal-image revealed">
+                            <img src="{% static book.image %}" alt="{{ book.title }} book cover" class="w-full h-full object-contain p-4">
+                        </div>
+
+                        <!-- Floating badge (if series) -->
+                        {% if book.series %}
+                        <div class="absolute -bottom-8 -right-8 lg:right-12 bg-white p-6 shadow-xl z-20 max-w-xs reveal-text">
+                            <div class="gold-rule mb-4"></div>
+                            <p class="font-serif text-lg text-navy italic">{{ book.series }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- RIGHT: Book Info -->
+                <div class="lg:pl-12">
+                    <div class="gold-rule mb-8 reveal-text"></div>
+
+                    <div class="reveal-text" style="transition-delay: 0.1s">
+                        <span class="genre-badge mb-4 inline-block">{{ book.genre }}</span>
+                    </div>
+
+                    <h1 class="book-title-xl text-navy leading-none mb-4 reveal-text" style="transition-delay: 0.1s">{{ book.title }}</h1>
+                    
+                    <p class="book-author mb-8 reveal-text" style="transition-delay: 0.15s">{{ book.author }}</p>
+
+                    <!-- Rating & Price -->
+                    <div class="flex flex-wrap items-center gap-8 mb-10 reveal-text" style="transition-delay: 0.2s">
+                        <div class="rating-stars">
+                            {% with rating_int=book.rating|floatformat:0 %}
+                                {% for i in "12345"|make_list %}
+                                    {% if forloop.counter <= book.rating %}
+                                        <svg viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    {% else %}
+                                        <svg viewBox="0 0 24 24" style="fill:rgba(226,177,60,0.2);"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                            <span class="text-navy/60 ml-2 text-sm">{{ book.rating }} · 24 reviews</span>
+                        </div>
+                        <div class="price-large">{{ book.price }}</div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="flex flex-col sm:flex-row gap-4 reveal-text" style="transition-delay: 0.25s">
+                        <button class="btn-primary btn-premium magnetic-btn inline-flex items-center justify-center gap-2 group">
+                            <span>Add to Cart</span>
+                            <i data-lucide="shopping-bag" class="w-4 h-4 transition-transform group-hover:scale-110"></i>
+                        </button>
+                        <button class="btn-secondary magnetic-btn inline-flex items-center justify-center gap-2">
+                            <i data-lucide="eye" class="w-4 h-4"></i>
+                            <span>Preview</span>
+                        </button>
+                    </div>
+
+                    <!-- Short description teaser -->
+                    <p class="text-navy/70 text-base leading-relaxed mt-10 max-w-lg reveal-text" style="transition-delay: 0.3s">
+                        {{ book.description }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider my-20"></div>
+
+            <!-- Description Section -->
+            <section class="reveal-text" id="descriptionSection">
+                <h2 class="font-serif text-3xl lg:text-4xl font-medium text-navy mb-8">About this book</h2>
+                <div class="description-text">
+                    <p>{{ book.long_description|linebreaksbr }}</p>
+                </div>
+            </section>
+
+            <!-- Divider -->
+            <div class="divider my-20"></div>
+
+            <!-- Book Details Grid -->
+            <section class="reveal-text" id="detailsSection">
+                <h2 class="font-serif text-3xl lg:text-4xl font-medium text-navy mb-10">Details</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="detail-card">
+                        <div class="meta-label">Publisher</div>
+                        <div class="value">{{ book.publisher }}</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="meta-label">Publication Date</div>
+                        <div class="value">{{ book.publication_date }}</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="meta-label">ISBN</div>
+                        <div class="value">{{ book.isbn }}</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="meta-label">Pages</div>
+                        <div class="value">{{ book.pages }}</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="meta-label">Language</div>
+                        <div class="value">{{ book.language }}</div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="meta-label">Format</div>
+                        <div class="value">{{ book.format }}</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Decorative element - quote if available -->
+            {% if book.quote %}
+            <div class="mt-20 text-center reveal-text">
+                <div class="quote-mark mb-2">"</div>
+                <p class="font-serif text-2xl text-navy/80 italic max-w-3xl mx-auto">{{ book.quote }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Footer (matching index.html) -->
+    <footer class="bg-navy py-12 lg:py-16 relative">
+        <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold to-transparent"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                <div class="text-center lg:text-left">
+                    <div class="font-serif text-2xl text-white mb-2">
+                        Muhluri<span class="text-gold">.</span>
+                    </div>
+                    <p class="text-white/50 text-sm">Author • Activist • Speaker • Investor</p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-white/60">
+                    <a href="{% url 'home' %}#home" class="luxury-link hover:text-gold transition-colors">Home</a>
+                    <a href="{% url 'home' %}#about" class="luxury-link hover:text-gold transition-colors">About</a>
+                    <a href="{% url 'home' %}#books" class="luxury-link hover:text-gold transition-colors">Books</a>
+                    <a href="{% url 'home' %}#contact" class="luxury-link hover:text-gold transition-colors">Contact</a>
+                </div>
+
+                <div class="text-white/40 text-sm">© 2024 Muhluri Sambo. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons()
+    </script>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll Progress
+            const scrollProgress = document.getElementById('scroll-progress');
+            
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = (scrollTop / docHeight) * 100;
+                scrollProgress.style.width = scrollPercent + '%';
+            });
+
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Mobile Menu
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            const menuIcon = document.getElementById('menuIcon');
+            let isMenuOpen = false;
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                isMenuOpen = !isMenuOpen;
+                mobileMenu.classList.toggle('open');
+                
+                if (isMenuOpen) {
+                    menuIcon.setAttribute('data-lucide', 'x');
+                } else {
+                    menuIcon.setAttribute('data-lucide', 'menu');
+                }
+                lucide.createIcons();
+            });
+            
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    isMenuOpen = false;
+                    mobileMenu.classList.remove('open');
+                    menuIcon.setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                });
+            });
+
+            // Reveal animations
+            const revealElements = document.querySelectorAll('.reveal-text, .reveal-image');
+            
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // Already visible elements
+            setTimeout(() => {
+                revealElements.forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.9) {
+                        el.classList.add('revealed');
+                    }
+                });
+            }, 200);
+        });
+    </script>
+</body>
+</html>
