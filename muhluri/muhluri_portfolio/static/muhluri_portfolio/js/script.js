@@ -376,3 +376,33 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('🎩 Muhluri Sambo — Infinite Authority\n🌐 Website initialized with premium interactions');
 });
+
+document.getElementById("contactForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const name = this.querySelector('input[type="text"]').value;
+  const email = this.querySelector('input[type="email"]').value;
+  const message = this.querySelector("textarea").value;
+
+  try {
+    const response = await fetch("http://127.0.0.1:5000/send-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, message }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      document.getElementById("formSuccess").classList.remove("hidden");
+      this.reset();
+    } else {
+      alert("Failed to send message.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Error sending message.");
+  }
+});
