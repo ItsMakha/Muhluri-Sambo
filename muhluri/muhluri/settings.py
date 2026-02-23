@@ -26,7 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 SECRET_KEY = config('SECRET_KEY')
-ALLOWED_HOSTS = [os.environ.get('https://muhluri-sambo.vercel.app', 'localhost')]
+ALLOWED_HOSTS = [
+    '.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
