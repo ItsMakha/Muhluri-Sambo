@@ -2,8 +2,12 @@
   "version": 2,
   "builds": [
     {
-      "src": "manage.py",
-      "use": "@vercel/python"
+      "src": "muhluri/wsgi.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "100mb",
+        "runtime": "python3.9"
+      }
     },
     {
       "src": "api/*.js",
@@ -17,7 +21,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "muhluri_portfolio/$1"
+      "dest": "muhluri/wsgi.py"
     }
   ]
 }
