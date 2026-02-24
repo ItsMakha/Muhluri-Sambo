@@ -1,3 +1,28 @@
-/venv
-/muhluri/email_service
+# Static files
+staticfiles/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment
 .env
+venv/
+ENV/
+env/
+
+# Email service (Node.js)
+email_service/
+email_service/node_modules/
+email_service/package-lock.json
+email_service/package.json
+email_service/server.js
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Vercel
+.vercel
