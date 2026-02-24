@@ -5,19 +5,15 @@
       "src": "muhluri/wsgi.py",
       "use": "@vercel/python",
       "config": {
-        "maxLambdaSize": "100mb",
+        "maxLambdaSize": "15mb",
         "runtime": "python3.9"
       }
-    },
-    {
-      "src": "api/*.js",
-      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/send-email.js"
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
     },
     {
       "src": "/(.*)",
