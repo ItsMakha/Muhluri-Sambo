@@ -1,28 +1,19 @@
 #!/bin/bash
 
-set -e  # Stop on any error and surface it clearly
-
-echo "=== STEP 1: Python & pip version ==="
-python --version
-pip --version
-
-echo ""
-echo "=== STEP 2: Installing requirements ==="
+echo "=== Installing requirements ==="
 pip install -r requirements.txt --break-system-packages
 
 echo ""
-echo "=== STEP 3: Checking source static files exist ==="
-echo "--- muhluri_portfolio/static/ contents ---"
-find muhluri_portfolio/static -type f | sort
+echo "=== Running collectstatic ==="
+python manage.py collectstatic --noinput
 
 echo ""
-echo "=== STEP 4: Running collectstatic ==="
-python manage.py collectstatic --noinput --verbosity 2
+echo "=== Moving files so CDN serves them at /static/ ==="
+mkdir -p staticfiles_cdn/static
+cp -r staticfiles/* staticfiles_cdn/static/
 
 echo ""
-echo "=== STEP 5: Verifying staticfiles/ was created ==="
-echo "--- staticfiles/ contents ---"
-find staticfiles -type f | sort
+echo "=== CDN output (served at /static/...) ==="
+find staticfiles_cdn -type f | grep muhluri | sort
 
-echo ""
-echo "=== BUILD COMPLETE ==="
+echo "=== Done ==="

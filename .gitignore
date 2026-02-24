@@ -1,29 +1,21 @@
-# Static files
-staticfiles/
-
-# Python
-__pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# Environment
+__pycache__
+.DS_Store
+.git
+.gitignore
 .env
-venv/
-ENV/
-env/
-
-# Email service (Node.js)
+.venv
+venv
+ENV
+env
+db.sqlite3
+*.sqlite3
+staticfiles/
+staticfiles_cdn/
 email_service/
 email_service/node_modules/
 email_service/package-lock.json
 email_service/package.json
 email_service/server.js
-
-# Database
-*.sqlite3
-db.sqlite3
-
-# Vercel
-.vercel
-.env*.local
