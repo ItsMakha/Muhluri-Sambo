@@ -1,11 +1,7 @@
 #!/bin/bash
 
-echo "BUILD START"
-
 # Install dependencies
-python3.9 -m pip install -r requirements.txt
+pip install -r requirements.txt
 
-# Collect static files
-python3.9 manage.py collectstatic --noinput --clear
-
-echo "BUILD END"
+# Run collectstatic so Vercel can serve static files
+python manage.py collectstatic --noinput
