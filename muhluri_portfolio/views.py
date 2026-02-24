@@ -17,7 +17,7 @@ BOOKS = [
         'pages': '210',
         'language': 'English',
         'format': 'Paperback / E-book',
-        'image': 'muhluri_portfolio/img/Image 13.jpeg',  # Note the capital I and space
+        'image': 'muhluri_portfolio/img/image_13.jpeg',  # Updated
         'series': 'Infinite Series'
     },
     {
@@ -35,7 +35,7 @@ BOOKS = [
         'pages': '185',
         'language': 'English',
         'format': 'Paperback',
-        'image': 'muhluri_portfolio/img/Image 12.jpeg',  # Note the capital I and space
+        'image': 'muhluri_portfolio/img/image_12.jpeg',  # Updated
         'series': 'Political Thought'
     },
     {
@@ -53,7 +53,7 @@ BOOKS = [
         'pages': '195',
         'language': 'English',
         'format': 'Paperback / E-book',
-        'image': 'muhluri_portfolio/img/Image 09.jpeg',  # Note the capital I and space
+        'image': 'muhluri_portfolio/img/image_09.jpeg',  # Updated
         'series': 'Infinite Series'
     },
     {
@@ -71,7 +71,7 @@ BOOKS = [
         'pages': '220',
         'language': 'English',
         'format': 'Hardcover',
-        'image': 'muhluri_portfolio/img/Image 11.jpeg',  # Note the capital I and space
+        'image': 'muhluri_portfolio/img/image_11.jpeg',  # Updated
         'series': 'Infinite Series'
     },
     {
@@ -89,7 +89,7 @@ BOOKS = [
         'pages': '235',
         'language': 'English',
         'format': 'Hardcover',
-        'image': 'muhluri_portfolio/img/Image 10.jpeg',  # Note the capital I and space
+        'image': 'muhluri_portfolio/img/image_10.jpeg',  # Updated
         'series': 'Infinite Series'
     }
 ]
